@@ -1,3 +1,19 @@
+  let loginBtn = document.getElementById('login-btn')
+  let logoutBtn = document.getElementById('logout-btn')
+
+  let token = localStorage.getItem('token')
+  if (token) {
+    loginBtn.remove()
+  } else {
+    logoutBtn.remove()
+  }
+
+  logoutBtn.addEventListener('click', (e) => {
+    e.preventDefault()
+    localStorage.removeItem('token')
+    window.location = 'file:///D:/Python/Django/Frontend%20DevSearch%20API/login.html'
+  })
+
 let projectsUrl = "http://127.0.0.1:8000/api/projects/";
 
 let getProjects = () => {
@@ -41,8 +57,7 @@ let addVoteEvents = () => {
   let voteBtns = document.getElementsByClassName("vote--option");
   for (let i = 0; voteBtns.length > i; i++) {
     voteBtns[i].addEventListener("click", (e) => {
-      let token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxOTQ4MjE0LCJpYXQiOjE3MDE5NDc5MTQsImp0aSI6IjIwOWIxYTEzMjE3NDRlMDVhMTlmODMyNjUxYzU1Njc2IiwidXNlcl9pZCI6MX0.UaLLcKe6xVDk1fkHT-OzckuCgTyHyJ8WEfhVzWcRQWU";
+      let token = localStorage.getItem('token')
       let vote = e.target.dataset.vote;
       let project = e.target.dataset.project;
       fetch(`http://127.0.0.1:8000/api/projects/${project}/vote/`, {
@@ -55,7 +70,7 @@ let addVoteEvents = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("Success:", data);
+          // console.log("Success:", data);
           getProjects()
         });
     });
